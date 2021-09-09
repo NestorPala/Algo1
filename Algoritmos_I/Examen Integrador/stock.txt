@@ -1,0 +1,7 @@
+sku;codigo_interno;equipo;tipo;año;marca;talle;ingresadas;vendidas;costo_promedio;precio_venta_actual
+4059322286834;1;Argentina;Local;2018;Adidas;L;4;1;7.61;39
+4059322286827;1;Argentina;Local;2018;Adidas;XL;2;1;7.61;39
+887229608374;2;Boca Juniors;Local;2017;Nike;L;10;2;11.97;49
+886737674031;3;Boca Juniors;Alternativa;2018;Nike;M;8;3;10.24;59
+193151324474;4;San Lorenzo de Almagro;Visitante;2021;Nike;L;4;2;22.57;69
+193151324467;4;San Lorenzo de Almagro;Visitante;2021;Nike;M;2;0;24.27;69
