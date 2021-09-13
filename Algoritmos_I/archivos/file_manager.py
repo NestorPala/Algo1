@@ -1,5 +1,6 @@
 import os
 import webbrowser
+from shutil import rmtree
 from pathlib import Path
 
 
@@ -40,7 +41,15 @@ def ingresar_opcion(rango_opciones: int) -> int:
 
 
 def regresar_directorio_anterior(directorio_actual: str) -> str:
-    regresador = directorio_actual.split('\\')
+    #"\\":windows, "/":linux
+    separador_directorio = ""
+
+    if os.name == "nt":
+        separador_directorio = "\\"
+    else:
+        separador_directorio = "/"
+
+    regresador = directorio_actual.split(separador_directorio)
     #['C:', 'Users', 'Nestor', 'Desktop', 'EVALUACIONES']
 
     #['C:', 'Users', 'Nestor', 'TP2_APIS', ''] (quitamos el elemento vacío)
@@ -53,7 +62,7 @@ def regresar_directorio_anterior(directorio_actual: str) -> str:
     directorio_anterior = str()
 
     for i in range(len(regresador)):
-        directorio_anterior += regresador[i] + "\\"
+        directorio_anterior += regresador[i] + separador_directorio
 
     return directorio_anterior 
 
@@ -102,8 +111,10 @@ def explorador_carpetas(directorio_de_inicio: str = f'{Path.home()}') -> None:
         print("3) Elegir ruta para navegar")
         print("4) Abrir archivo")
         print("5) Ejecutar...")
-        print("6) Salir")
-        opcion = ingresar_opcion(6)
+        print("6) Borrar directorio (chan chan chan)")
+        print("7) Salir")
+        #agregar borrar archivos
+        opcion = ingresar_opcion(7)
 
         if opcion == 1:
 
@@ -188,6 +199,36 @@ def explorador_carpetas(directorio_de_inicio: str = f'{Path.home()}') -> None:
                     input(f"Se abrió la página web '{comando}'. Presione una tecla para continuar:  ")
                 else:
                     input(f"Se ejecutó el comando '{comando.upper()}'. Presione una tecla para continuar:  ")
+
+        elif opcion == 6:
+
+            victima = input("Elija la carpeta a borrar (de este directorio) o escriba 'no' para cancelar:  ")
+
+            if victima != "no":
+                directorio_victima = os.path.join(directorio_actual, victima)
+                contenido_directorio_victima = len(os.listdir(directorio_victima))
+                borrado = False
+
+                if contenido_directorio_victima == 0:
+                    check = input("Usted va a borrar una carpeta VACIA. Pulse una tecla para continuar o escriba 'no' para cancelar:  ")
+
+                    if check != "no":
+                        try:
+                            os.rmdir(directorio_victima)
+                            borrado = True
+                        except Exception:
+                            input("No se pudo borrar la carpeta. Pulse una tecla para continuar:  ")
+                else:
+                    check = input("Usted va a borrar una carpeta CON CONTENIDO. Pulse una tecla para continuar:  ")
+
+                    if check != "no":
+                        try:
+                            rmtree(directorio_victima)
+                            borrado = True
+                        except Exception:
+                            input("No se pudo borrar la carpeta. Pulse una tecla para continuar:  ")
+                
+                if borrado: input("Se borró el directorio correctamente. Pulse una tecla para continuar: ")
 
         else:
             seguir = False
