@@ -1,4 +1,5 @@
 import os
+import webbrowser
 from pathlib import Path
 
 
@@ -174,6 +175,8 @@ def explorador_carpetas(directorio_de_inicio: str = f'{Path.home()}') -> None:
 
             try:
                 os.startfile(comando)
+            except AttributeError:
+                webbrowser.open(ruta_archivo)
             except FileNotFoundError:
                 directorio_no_encontrado = True
                 input("No se encontró el directorio solicitado. Pulse una tecla para continuar: ")
